@@ -1,0 +1,190 @@
+##### Version Control System
+# 3 types 
+1. Local - A local version control system is a local database located on your local computer, in which every file change is stored as a patch. 
+Every patch set contains only the changes made to the file since its last version. In order to see what the file looked like at any given moment, 
+it is necessary to add up all the relevant patches to the file in order until that given moment.
+The main problem with this is that everything is stored locally.
+Also, collaborating with other developers or a team is very hard or nearly impossible.
+2. Centralized - A centralized version control system has a single server that contains all the file versions. 
+This enables multiple clients to simultaneously access files on the server, pull them to their local computer or push them onto the server from their local computer. 
+This way, everyone usually knows what everyone else on the project is doing. Administrators have control over who can do what.
+This allows for easy collaboration with other developers or a team.
+The biggest issue with this structure is that everything is stored on the centralized server. 
+If something were to happen to that server, nobody can save their versioned changes, pull files or collaborate at all
+3. Distributed - With distributed version control systems, clients don’t just check out the latest snapshot of the files from the server, 
+they fully mirror the repository, including its full history. Thus, everyone collaborating on a project owns a local copy of the whole project, 
+i.e. owns their own local database with their own complete history. With this model, if the server becomes unavailable or dies, 
+any of the client repositories can send a copy of the project's version to any other client or back onto the server when it becomes available.
+Git is the most well-known example of distributed version control systems.
+
+###### SDLC #####
+
+- stages of SDLC
+1. Code - Git 
+2. Build - Maven/Gradle 
+3. Test - SonarQube/Selenium
+4. Artifacts Storage - Nexus (monolithic app) or Dockerhub (image)
+5. Deploy - Ansible/chef/puppet/salt/Kubernetes/Docker
+6. Monitor - i.e. infrastructure and application monitoring -/ Prometheus(gather matrices)/ Grafana (visualization) amd Splunk(logging)
+- integration with Jenkins 
+
+- Artifacts 
+1. Monolithic like WAR 
+2. Containerizes like image 
+
+## Build ###
+- Maven - it is a Java based software. 
+Maven is actually a plugin execution framework where every task is actually done by plugins. 
+Maven Plugins are generally used to −
+	• create jar file
+	• create war file
+	• compile code files
+	• unit testing of code
+	• create project documentation
+create project reports
+- Maven Architecture: Build process -
+1. Action --> POM file - all action are declared in the pom.xml file (project Object model)
+2. Test - unit test i.e. test all the codes for any error. and integration test i.e. the connection btw all the features and if the code is deployable - tool like J-unit 
+3. Source Code - stored in repo with path declared in pom.xml
+4. dependencies - like JDK for java application or python for python applications. they are also declared at the level of pom.xml files
+5. Report - maven will generate report throughout the build process. it can be used for debugging 
+6. Application Artifact - they have extentions like .war (web application Resources, used to package web applications ), .jar file (database application), .ear file for enterprise
+- An EAR file is a critical piece in deploying a service application to a production server. 
+An enterprise archive (EAR) file is a compressed file that contains the libraries, enterprise beans, and JAR files that the application requires for deployment.
+
+# Project Object Model - pom file 
+- declare your build objectives 
+1. dependencies management  - pry and transitive dependencies 
+2. pluggins 
+3. build scope - compiler and time frame.
+
+# dependencies Management 
+- Repostory during maven build process
+1. Maven Central repo  - maven managed 
+2. Remote repo - cx managed (developers responsibility) e.g. s3, github,etc.
+3. Local Cache - any dependencies from central repo will be downloaded on your local repo
+and for fast build. 
+
+## Project Build ###  - https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html | https://www.tutorialspoint.com/maven/maven_build_life_cycle.htm
+# Maven Lifecycles types - most organization use build and clean.
+-  build/ default lifecycle phases (important ones): allows you to package app and get artifacts.
+1. Validate phase - check for configurations, syntax error, dependencies of a pon.xml and artifacts version
+2. Compile phase - the structure of the source code. java application must follow certain structure. 
+3. Test phase - run unit test case and integration test case. it use J-unt test cases for the testing
+4. Package phase - it make sure that integration btw dependencies and souce code are package into a single file.
+ and executable format like .jar, .ear, .war. 
+ a. maven will create a target directory for reports, jar, war or ear file, and unit test report
+ b. verify and install before deploy.
+5. deploy phase - publish artifacts to storage like Nexus. command is mvn.
+-  clean: The Maven Clean Plugin, as the name implies, attempts to clean the files and directories generated by Maven during its build. 
+          While there are plugins that generate additional files, the Clean Plugin assumes that these files are generated inside the target directory.
+- site
+
+# Maven Pluggins 
+
+# Maven Build processes - POM file - repo - lib/dependencies repo - test script - artifacts - build report - documentation.
+
+
+## Application Testing 
+- types of Application Test 
+1. SCA - Software Composition Analysis: evaluations some code based on dependencies and libraries used when packaging the application
+   a. check for dependencies 
+   b. check for SQL Injections 
+   c. License i.e govt compliance 
+2. SAST - Software Application Static Test - SonarQube, 
+    a. there is no artifact executon here i.e. no deployment of artifact
+    b. 
+3. DAST - Dynamic Application Security Testing - Selenium
+    a. it gives the ability to execute the artifact generated and be able to see the app on the browser
+    b. more expensive with a lot of effort
+- major component of test - dynamic and static test 
+
+- SonarQube: 
+    a. used for static code analysis 
+    b. integrate well with many CI tools like Jenkins, maven. 
+    c. app deployment could be Linux or Windows environment. 
+- SonarQube Architecture:
+    a. Sonarqube web server - allows you to have visual at your browser (UI composition) to see all report(analysis, bugs, vulnerabilities etc). 
+        - configuration - tokens, user, project or integration
+    b. SonarQube database - actual storage layer to store result of analysis performed on the app code. 
+        - support SQL database e.g oracle, mysql, ms sql server and postgresql.
+    c. elastic search - analysis of data at near real time. 
+    d. SonarQube Scanner - determined by the build tool you are making use of for your project. 
+        - maven, gradle, Ant, and MS build Scanner.
+
+- SonarQube Rules: 
+    a. code smell - best practices when developing application codes. copy code from actual libraries
+    b. bug analysis - past experience, amount of bugs that could be accomodated.
+    c. vulnerability rules - api keys, secrets, database credentials
+    d. Security hot spot - it causes a huge alert when identified like database credential or app keys
+
+- SonarQube Issues:
+    a. based on Severities 
+        - Blocker - it must be fixed b4 app is moved to production
+        - Critical - it is manageable but not healthy. app may run but it wont perform optimally. 
+                     e.g. if it is vulnerable enough for sql inh=jection
+        - major - e.g quality of the code like duplicate of codes or size of the code base. 
+        - minor - like lines seperating blockes of code, lack of proper indentation strategies, etc. 
+
+- Quality Gate - it defines how many known bugs should be tolerated/accomodated before the implementation can be term successful (benchmark)
+
+
+
+
+
+
+
+
+Summary based on my own understanding so Far...
+SDLC stages:
+1. Version control system (VCS) - git 
+2. Build - Maven
+3. Test - Sonarqube/ Selenium
+4. Artifacts Storage - Nexus (monolithic app) or dockerhub (microservices)
+5. Deploy - Ansible, puppet, chef, docker, kubernetes, salt, etc.
+6. Monitoring - application and infrastructure monitoring 
+   - Prometheus(gather matrices)/ Grafana (visualization) amd Splunk(logging)
+** Jenkins for Integration.
+
+
+1. VCS - 3 types:
+    a. Local - your computer
+    b. centralized - e.g S3 bucket
+    c. Distributed - git (github as storage)
+
+2. Build
+- Maven build processes:
+    a. action - POM file 
+    b. test - unit or integration test 
+    c. Source code - repository 
+    d. Libraries/dependencies 
+    e. reports 
+    f. application artifacts - war, jar, ear 
+    g. documentation.
+
+- maven Build lifecycle phases
+i. build/default:
+    a. validated phase
+    b. compile phase
+    c. test phase 
+    d. package phase 
+    e. deploy phase 
+ii. clean 
+
+3. Test - I guess this is where we are now 
+
+##### Hands-On ######
+1. laumch EC2 and ssh 
+2. install apache mavenn - maven installtion lib doess not exit in /etc/yum.repos.d (which is the eosystem of yum package)
+    then you have to download apache-maven in the yum lib before installing maven.
+    wget - is a linux utility used to donload any app in linux. 
+3. install Java 8 for Maven
+4. install default runtime for Java 8 for 1.8
+5. install java 8 compiler 1.18
+6. verify maven with mvn -v 
+7. install git, switch branch with checkout 
+8. switch to the root directory of the app with src and pom.xml
+9. mvn validate and mvn compile 
+10. mvn clean - just to delete all data generated, so we can set a stage for the mvn test 
+11. mvn test / mvn clean 
+12. mvn package - to get artifact 
