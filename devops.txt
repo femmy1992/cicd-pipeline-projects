@@ -126,54 +126,39 @@ and for fast build.
         - major - e.g quality of the code like duplicate of codes or size of the code base. 
         - minor - like lines seperating blockes of code, lack of proper indentation strategies, etc. 
 
-- Quality Gate - it defines how many known bugs should be tolerated/accomodated before the implementation can be term successful (benchmark)
+- Intelligence in SonaQube to handle issues 
+1. Quality Gate - it defines how many known bugs should be tolerated/accomodated before the implementation can be term successful (benchmark)
+
+#### Artifact Mangers #####
+1. Monolthic Application: Nexus, Jfrog, S3, AWS Artifact repo 
+2. Microservices: DockerHub, ECR, etc. 
+- Nexus: used for -
+1. artifact management tool
+2. manage dependencies of application
+- Nexus Offerings 
+1. Community Offerings
+2. Enterprise offering 
+    a.  Ldap Access control - Federation
+    b.  Repository API  
+- setting up Nexus environment 
+1. You have to create users:
+    a. management access i.e creating iam access to different users 
+    b. you can use a federated access, which allows user to use a single credentials 
+        to access multiple environment, account or Resources (LDAP) best method for enterprise.
+
+- Benefit of Nexus Enterprise over community offering 
+1. High availability - multiple nodes. replicate and stores all artifacts in all the nodes 
+    nexus will pull artifact from any of the node. 
+2. repository health checks i.e. it can scan all artifacts for vulnerabilities and bugs 
+3. enterprise support. you can reach out to the support team to help troubleshoot.
+* Delagation uses switch role policy
+* Federation uses SSO 
 
 
 
-
-
-
-
-
-Summary based on my own understanding so Far...
-SDLC stages:
-1. Version control system (VCS) - git 
-2. Build - Maven
-3. Test - Sonarqube/ Selenium
-4. Artifacts Storage - Nexus (monolithic app) or dockerhub (microservices)
-5. Deploy - Ansible, puppet, chef, docker, kubernetes, salt, etc.
-6. Monitoring - application and infrastructure monitoring 
-   - Prometheus(gather matrices)/ Grafana (visualization) amd Splunk(logging)
-** Jenkins for Integration.
-
-
-1. VCS - 3 types:
-    a. Local - your computer
-    b. centralized - e.g S3 bucket
-    c. Distributed - git (github as storage)
-
-2. Build
-- Maven build processes:
-    a. action - POM file 
-    b. test - unit or integration test 
-    c. Source code - repository 
-    d. Libraries/dependencies 
-    e. reports 
-    f. application artifacts - war, jar, ear 
-    g. documentation.
-
-- maven Build lifecycle phases
-i. build/default:
-    a. validated phase
-    b. compile phase
-    c. test phase 
-    d. package phase 
-    e. deploy phase 
-ii. clean 
-
-3. Test - I guess this is where we are now 
 
 ##### Hands-On ######
+# Part 1
 1. laumch EC2 and ssh 
 2. install apache mavenn - maven installtion lib doess not exit in /etc/yum.repos.d (which is the eosystem of yum package)
     then you have to download apache-maven in the yum lib before installing maven.
@@ -188,3 +173,12 @@ ii. clean
 10. mvn clean - just to delete all data generated, so we can set a stage for the mvn test 
 11. mvn test / mvn clean 
 12. mvn package - to get artifact 
+
+# part 2
+1. ssh to existing  instance
+2. create ubuntu 20 instance for Sonarqube 
+    a. open port 22 and port 9000 (custom tcp)- sonarqube listen on port 9000.
+    b. pass a user data (see file)
+    c. use atleat t2 medium volume
+3. copy ip:9000 
+    a. login with admin and admin as password 
