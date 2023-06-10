@@ -229,14 +229,14 @@ and for fast build.
 3. copy ip:9000 
     a. login with admin and admin as password
 4. create a new project 
-5. generate a token for authorization - Javawebapp-token: a1a48557597e78bf3a684fe00990bf9e97e0c61c
+5. generate a token for authorization - 
 6. determine the project main language - Java
 7. build tool - maven
 8. copy the API for sonarqube scanner and run it in your maven project folder -
    mvn sonar:sonar \
     -Dsonar.projectKey=Javawebapp \
     -Dsonar.host.url=http://54.242.88.230:9000 \
-    -Dsonar.login=a1a48557597e78bf3a684fe00990bf9e97e0c61c
+    -Dsonar.login=
 9. go to your maven server and ssh into it, go to JavaWebApp directory 
 10. run the API scannner as seen above in line 8. 
 11. go back to the sonaqube website and refresh the page
@@ -247,7 +247,7 @@ and for fast build.
 1. create linux instance with t2 medium and sg with port 8081
     a. see user data link - https://github.com/awanmbandi/realworld-cicd-pipeline-project/blob/maven-sonarqube-nexus-jenkins-install/nexus-install.sh
     b. copy ip:8081, use admin as usename and copy the path for password and ssh into ur server to get the password. 
-    c. changed password to admin123
+    c. changed password to 
 2. create a repository with maven2 hosted and a snapshot version 
 3. go to maven server and cat pom.xml 
 4. vi into pom.xml file and edit the snapshot repository with your private ip address and rpository name 
