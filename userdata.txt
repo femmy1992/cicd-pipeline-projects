@@ -153,11 +153,14 @@ yum install git -y
 
 ## Download settings.xml into .m2 for Authorization
 mkdir /home/jenkinsmaster/.m2
-wget https://raw.githubusercontent.com/femmy1992/jenkins-master-client-project/main/settings.xml -P /home/jenkinsmaster/.m2/
+wget https://raw.githubusercontent.com/femmy1992/cicd-pipeline-projects/maven-sonaqube-nexus-jenkins/settings.xml -P /home/jenkinsmaster/.m2/
+
+
+
+## wget https://raw.githubusercontent.com/femmy1992/jenkins-master-client-project/main/settings.xml -P /home/jenkinsmaster/.m2/
 
 
 ## wget https://raw.githubusercontent.com/awanmbandi/realworld-cicd-pipeline-project/maven-sonarqube-nexus-jenkins/settings.xml -P /home/jenkinsmaster/.m2/
-
 
 
 

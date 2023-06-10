@@ -259,3 +259,4 @@ and for fast build.
 
 # Part 4 - CI integration
 1. launch an ec2 instance for maven and pass a userdata. see userdata file 
+2. whenever you want to use curl or wget to get a path, you need to use the raw url from your repository.
