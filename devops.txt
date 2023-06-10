@@ -21,7 +21,7 @@ Git is the most well-known example of distributed version control systems.
 
 - stages of SDLC
 1. Code - Git 
-2. Build - Maven/Gradle 
+2. Build - Maven/Gradle/Ante
 3. Test - SonarQube/Selenium
 4. Artifacts Storage - Nexus (monolithic app) or Dockerhub (image)
 5. Deploy - Ansible/chef/puppet/salt/Kubernetes/Docker
@@ -110,7 +110,7 @@ and for fast build.
         - support SQL database e.g oracle, mysql, ms sql server and postgresql.
     c. elastic search - analysis of data at near real time. 
     d. SonarQube Scanner - determined by the build tool you are making use of for your project. 
-        - maven, gradle, Ant, and MS build Scanner.
+        - maven, gradle, Ante, and MS build Scanner.
 
 - SonarQube Rules: 
     a. code smell - best practices when developing application codes. copy code from actual libraries
@@ -128,6 +128,7 @@ and for fast build.
 
 - Intelligence in SonaQube to handle issues 
 1. Quality Gate - it defines how many known bugs should be tolerated/accomodated before the implementation can be term successful (benchmark)
+2. 
 
 #### Artifact Mangers #####
 1. Monolthic Application: Nexus, Jfrog, S3, AWS Artifact repo 
@@ -153,6 +154,51 @@ and for fast build.
 3. enterprise support. you can reach out to the support team to help troubleshoot.
 * Delagation uses switch role policy
 * Federation uses SSO 
+
+#### Continuous Integration - Jenkins #####
+- CI solution will integrate all the different stages within a pipeline. it gives end-to-end automation.
+- tools such as Jenkins, Hudson, Circle CI, Gitlab CI, Bamboo, Github actions 
+- benefit of jenkins:
+1. most popular 
+2. it is easy to configure 
+3. it is free 
+4. more capabilities and pluggins 
+- two ways to integrate build 
+1. you can install build software in a seeperate VM instance. challenges: 
+    a. add up cost, complexity, configuration challenges and time
+2. you can install the tool pluggin in Jenkins - it is an extension.
+- two parth to Jenkins 
+1. Jenkins imperative approach 
+    a. it means the manual approach. 
+    b. you create a seperate job for each execution individually
+    c. you can integrate each job with jenkins and use tool like ansible to deploy.
+    d. each job has specific api or Intelligence. 
+    d. you set up build other project which is an intelligence that allows the job to trigger the next job. 
+    e. it gives you some level of control 
+2. Jenkins declarative/scripted approach 
+    a. it allows for more automation
+    b. makes use of jenkins file/ groovy file which is the automation script. 
+    c. pipeline as code 
+    d. check it in to a particular SCM
+- ways to pull code from repository.
+1. webhook - github calling jenkins that there is a new change and jenkins will automatically start a build
+2. SEM pulling - this scan for changes in github every intervals
+- Build Project Jenkins
+1. Jenkins Host - for single environment
+2. Jenkins distributed architecture - for multiple environment
+    a. it has a Master and slave/client approach
+    b. Jenkins which is installed in the master host can orchestrate the build process across  different environment or platform/OS aka clients. 
+    c. it can use EC2 servers or Containerizes approach
+- Jenkins Master:
+1. it is responsible for locating the right build environment for the new build. it identify the client that runs the job. 
+    i.e. build dispatch based on label or randomly
+2. when a client is running the specified job limit, it goes offline and vice versal. i.e online and offline behavior.
+3. it can set the max amount of job per client. 
+4. it is responsible for tracking all build result.
+- Jenkins Client/slave:
+1. client could be based on any OS like Linux, windows, centOs, ubuntu, etc.
+2. it uses Java executable (agent.jar) to communicate with the master host. it is executed at the client level. it requires Java installation. 
+3. authentication and authorization on the client side is also set up with jenkins Token or SSH to connect to individual environment.
 
 
 
@@ -205,4 +251,11 @@ and for fast build.
 2. create a repository with maven2 hosted and a snapshot version 
 3. go to maven server and cat pom.xml 
 4. vi into pom.xml file and edit the snapshot repository with your private ip address and rpository name 
-5. run  mvn deploy 
+5. vi into setting.xml file, edit and update the username and password with nexus credentials and also update the repository url 
+6. move the setting.xml file to ~/.m2 or /home/ec2-user/.m2 directory path. to view the hidden .m2, use 
+    ls -al ~/ or ls -al /home/ec2-user/ move with <mv ../settings.xml ~/.m2>
+    a. note u have to create the .m2 directory if you dont have it. 
+7. run  mvn deploy 
+
+# Part 4 - CI integration
+1. launch an ec2 instance for maven and pass a userdata. see userdata file 
