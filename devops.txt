@@ -260,3 +260,6 @@ and for fast build.
 # Part 4 - CI integration
 1. launch an ec2 instance for maven and pass a userdata. see userdata file 
 2. whenever you want to use curl or wget to get a path, you need to use the raw url from your repository.
+3. launch ubuntu instance for gradle with user data
+4. update the build.gradle file - update repository (line 49) with the private IP of Nexus instance and the naxus repository name 
+5. update the build.gradle file - update sonarqube (33) with the private ip of your sonarqube instance & and sonar token (not done yet)
